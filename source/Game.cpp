@@ -1,7 +1,16 @@
 #include "Game.h"
+#include "Car.h"
+#include "TextureManager.h"
+#include "Map.h"
+
+
+Car* car1;
+Map* map;
 
 //static variable...
 SDL_Renderer* Game::renderer = nullptr;
+
+
 
 Game::Game() {}
 Game::~Game() {}
@@ -15,10 +24,12 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 		window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flag);
 		renderer = SDL_CreateRenderer(window, -1, 0);
 		if (renderer != nullptr) {
-			SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 		}
 		isRunning = true;
 	}
+	car1 = new Car("assets/blackCar.png", 400, 640);
+	map = new Map();
 }
 
 void Game::handleEvents() {
@@ -35,12 +46,13 @@ void Game::handleEvents() {
 }
 
 void Game::update() {
-
+	car1->Update_();
 }
 
 void Game::render() {
 	SDL_RenderClear(renderer);
-
+	map->DrawMap();
+	car1->Render_();
 	SDL_RenderPresent(renderer);
 }
 
