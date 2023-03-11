@@ -9,7 +9,7 @@ Map* map;
 
 //static variable...
 SDL_Renderer* Game::renderer = nullptr;
-
+//Controller* controller;
 
 
 Game::Game() {}
@@ -28,20 +28,49 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 		}
 		isRunning = true;
 	}
-	car1 = new Car("assets/blackCar.png", 400, 640);
+	car1 = new Car("assets/blackCar.png", 400, 500);
 	map = new Map();
 }
 
 void Game::handleEvents() {
-	SDL_Event event;
-	SDL_PollEvent(&event);
-
-	switch (event.type) {
-	case SDL_QUIT:
-		isRunning = false;
-		break;
-	default:
-		break;
+	SDL_Event e;
+	while (SDL_PollEvent(&e)) {
+		if (e.type == SDL_QUIT) {
+			isRunning = false;
+		}
+		else if (e.type == SDL_KEYDOWN) {
+			switch (e.key.keysym.sym) {
+			case SDLK_LEFT:
+			{
+				if (car1->lane == Car::Lane::kOne) {
+					//DO NOTHING
+				}
+				else if (car1->lane == Car::Lane::kTwo) {
+					//shift car from lane 2 to lane 1
+					car1->ChangeDirection(Car::Lane::kOne);
+				}
+				else {
+					//shift car from lane three to lane two
+					car1->ChangeDirection(Car::Lane::kTwo);
+				}
+			}break;
+			case SDLK_RIGHT: {
+				if (car1->lane == Car::Lane::kThree) {
+					//DO NOTHING
+				}
+				else if (car1->lane == Car::Lane::kTwo) {
+					//shift car from lane 2 to lane 3
+					car1->ChangeDirection(Car::Lane::kThree);
+				}
+				else {
+					//shift car from lane One to lane two
+					car1->ChangeDirection(Car::Lane::kTwo);
+				}
+			}break;
+			default:
+				break;
+			}
+		}
 	}
 }
 
@@ -61,3 +90,4 @@ void Game::clean() {
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
 }
+

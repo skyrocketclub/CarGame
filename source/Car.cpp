@@ -8,7 +8,21 @@ Car::Car(const char* texturesheet, int x, int y) {
 }
 
 void Car::Update_() {
-	ypos--;
+	
+	//updating the lane...
+	switch (lane) {
+	case Lane::kOne:
+		xpos = 368;
+		break;
+	case Lane::kTwo:
+		xpos = 400;
+		break;
+	case Lane::kThree:
+		xpos = 432;
+		break;
+	}
+
+	//ypos--;
 	//xpos++;
 
 	//The size of the image...
@@ -22,6 +36,9 @@ void Car::Update_() {
 	//Controls the size of the game object
 	destRect.w = srcRect.w *2;
 	destRect.h = srcRect.h * 2;
+}
+void Car::ChangeDirection(Car::Lane input) {
+	lane = input;
 }
 
 void Car::Render_() {
