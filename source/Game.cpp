@@ -9,8 +9,6 @@ Map* map;
 
 //static variable...
 SDL_Renderer* Game::renderer = nullptr;
-//Controller* controller;
-
 
 Game::Game() {}
 Game::~Game() {}
@@ -28,7 +26,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 		}
 		isRunning = true;
 	}
-	car1 = new Car("assets/blackCar.png", 400, 500);
+	car1 = new Car("assets/blueCar.png", 400, 500);
 	map = new Map();
 }
 

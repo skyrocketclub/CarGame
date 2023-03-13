@@ -11,6 +11,10 @@ public:
 
 private:
 	SDL_Rect src, dest;
+
 	SDL_Texture* brick;
+	SDL_Texture* boundary;
+	SDL_Texture* road;
+
 	int map[20][25];
 };
