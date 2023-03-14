@@ -3,6 +3,13 @@
 #include "Game.h"
 
 class Car {
+private:
+	int xpos;
+	int ypos;
+
+	SDL_Texture* carTexture;
+	SDL_Rect srcRect, destRect;
+
 public:
 	enum class Lane { kOne, kTwo, kThree };
 	Car(const char* texturesheet, int x, int y);
@@ -11,16 +18,14 @@ public:
 	
 	//The car is in the middle lane by default...
 	Lane lane = Lane::kTwo;
-	void ChangeDirection(Car::Lane);
 	
-
+	void ChangeDirection(Car::Lane);
 	void Update_();
 	void Render_();
 
-private:
-	int xpos;
-	int ypos;
+	//getter functions for the car dimensions...
+	int getCarX() { return xpos; }
+	int getCarY() { return ypos; }
 
-	SDL_Texture* carTexture;
-	SDL_Rect srcRect, destRect;
+
 };

@@ -1,6 +1,8 @@
 #include "Game.h"
 #include "Car.h"
 #include "TextureManager.h"
+#include "Situation.h"
+#include "vector"
 #include "Map.h"
 
 
@@ -9,6 +11,7 @@ Map* map;
 
 //static variable...
 SDL_Renderer* Game::renderer = nullptr;
+std::vector<Situation*>props{};
 
 Game::Game() {}
 Game::~Game() {}
@@ -73,13 +76,28 @@ void Game::handleEvents() {
 }
 
 void Game::update() {
+	if (props.size() == 0) {
+		Situation* prop = new Situation;
+		props.push_back(prop);
+	}
+	else if (props.back()->getY() > 200) {
+		//to prevent the props from clustering upon entering the game screen...
+		Situation* prop = new Situation;
+		props.push_back(prop);
+	}
+
+
+
+	Situation::Update_(props);
 	car1->Update_();
 }
 
 void Game::render() {
 	SDL_RenderClear(renderer);
 	map->DrawMap();
+
 	car1->Render_();
+	Situation::Render_(props);
 	SDL_RenderPresent(renderer);
 }
 
