@@ -5,6 +5,7 @@
 #include <iostream>
 //#include "Controller.h"
 #include "Car.h"
+#include <string>
 
 
 
@@ -20,10 +21,13 @@ public:
 	bool running() { return isRunning; }
 	void render();
 	void clean();
-	void checkScore();
-	void checkHighscore();
 
-	
+	void updateHighscore();
+	int checkHighscore();
+	void windowTitle(int, int);
+
+
+	int highscore{};
 	int count{ 0 };
 	int score{0};
 

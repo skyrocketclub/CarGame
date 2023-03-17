@@ -11,7 +11,7 @@ Situation::~Situation() {
 }
 
 void Situation::setConstants() {
-	form = rand() % 3 +1;//generates numbers between 0 - 3
+	form = rand() % 5 +1;//generates numbers between 0 - 3
 	lane = rand() % 3 + 1;
 
 	//The lane of the prop does not change
@@ -49,6 +49,12 @@ void Situation::setConstants() {
 		//std::cout << "Red Car Created\n";
 	}
 		break;
+	case 4: {
+		propTexture = TextureManager::LoadTexture("assets/blackCar.png");
+	}break;
+	case 5: {
+		propTexture = TextureManager::LoadTexture("assets/blueCar.png");
+	}break;
 	default:
 		break;
 	}

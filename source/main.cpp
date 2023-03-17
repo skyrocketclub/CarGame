@@ -4,8 +4,8 @@ Game* game = nullptr;
 
 int main(int argc, char *argv[]) {
 
-	const int FPS = 60;
-	const int frameDelay = 1000 / FPS;
+    int FPS = 60;
+    int frameDelay = 1000 / FPS;
 	Uint32 frameStart;
 	int frameTime;
 
@@ -13,6 +13,8 @@ int main(int argc, char *argv[]) {
 	game->init("Asfalt", 800, 640, false);
 
 	while (game->running()) {
+		frameDelay = 1000 / FPS;
+		FPS += 0.5;
 		frameStart = SDL_GetTicks();
 
 		game->handleEvents();
@@ -24,6 +26,7 @@ int main(int argc, char *argv[]) {
 			SDL_Delay(frameDelay - frameTime);
 		}
 	}
+	game->updateHighscore();
 	game->clean();
 	return 0;
 }

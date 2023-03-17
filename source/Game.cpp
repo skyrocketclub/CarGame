@@ -4,6 +4,7 @@
 #include "Situation.h"
 #include "vector"
 #include "Map.h"
+#include <fstream>
 
 
 Car* car1;
@@ -31,6 +32,8 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 	}
 	car1 = new Car("assets/blueCar.png", 400, 500);
 	map = new Map();
+	highscore = checkHighscore();
+	windowTitle(score, highscore);
 }
 
 void Game::handleEvents() {
@@ -76,34 +79,45 @@ void Game::handleEvents() {
 }
 
 void Game::update() {
-	//creating new situations on the screen when there are none at all
-	if (props.size() == 0) {
-		Situation* prop = new Situation;
-		props.push_back(prop);
-	}
-	else if (props.back()->getY() > 120) {
-		//to prevent the props from clustering upon entering the game screen...
-		Situation* prop = new Situation;
-		props.push_back(prop);
-	}
+
+	if (car1->isAlive == true) {
+		//creating new situations on the screen when there are none at all
+		if (props.size() == 0) {
+			Situation* prop = new Situation;
+			props.push_back(prop);
+		}
+		else if (props.back()->getY() > 120) {
+			//to prevent the props from clustering upon entering the game screen...
+			Situation* prop = new Situation;
+			props.push_back(prop);
+		}
 
 
-	//If the car is on the same position as a gold coin...
-	if (props.front()->isCoin() == true && car1->getCarX() == props.front()->getX() && car1->getCarY()-50 == props.front()->getY()) {
-		this->score++;
-		Situation::swallowProps(props); //get the coin of the screen
-		std::cout << "Score: " << this->score << std::endl;
-	}
+		//If the car is on the same position as a gold coin... or if the coin is simply within range
+		if (props.front()->isCoin() == true && car1->getCarX() == props.front()->getX() && (car1->getCarY() - props.front()->getY() > 0 && car1->getCarY() - props.front()->getY() < 50)) {
+			this->score++;
+			Situation::swallowProps(props); //get the coin of the screen
+			std::cout << "Score: " << this->score << std::endl;
+		}
 
-	
-	Situation::Update_(props);
-	car1->Update_();
+		//if the approaching prop is not a coin...
+		if (props.front()->isCoin() != true) {
+			//If there is a collision, this means game over...
+			if (car1->getCarX() == props.front()->getX() && (car1->getCarY() - props.front()->getY() > -32 && car1->getCarY() - props.front()->getY() < 50)) {
+				car1->isAlive = false;
+				updateHighscore();
+			}
+		}
+
+		Situation::Update_(props);
+		car1->Update_();
+		windowTitle(score, highscore);
+	}
 }
 
 void Game::render() {
 	SDL_RenderClear(renderer);
-
-	//Using the painters algorithm, what is rendered first is drawn first to the screen
+		//Using the painters algorithm, what is rendered first is drawn first to the screen
 	map->DrawMap();
 	car1->Render_();
 	Situation::Render_(props);
@@ -116,12 +130,50 @@ void Game::clean() {
 	SDL_Quit();
 }
 
-void Game::checkScore()
-{
 
+void Game::updateHighscore()
+{
+	std::ofstream out_file;
+	out_file.open("assets/highscore.txt", std::ios::out);
+
+	if (score > highscore) {
+		out_file << score;
+		out_file.close();
+		std::string title{ "New Highscore: " + std::to_string(score) };
+		SDL_SetWindowTitle(window, title.c_str());
+	}
+	else {
+
+	}
 }
 
-void Game::checkHighscore()
+int Game::checkHighscore()
 {
+	int c_highscore{};
+	std::ifstream in_file;
+	in_file.open("assets/highscore.txt");
+
+	if (!in_file) {
+		in_file.close();
+
+		//it means that the highscore does not exist and a new one is created
+		std::ofstream out_file;
+		out_file.open("assets/highscore.txt", std::ios::out);
+		std::cout << "Current Highscore: 0\n";
+		c_highscore = 0;
+		out_file.close();
+	}
+	else {
+		in_file >> c_highscore;
+		std::cout << "Current Highscore: " << c_highscore << std::endl;
+		in_file.close();
+	}
+	return c_highscore;
+}
+
+void Game::windowTitle(int score, int highscore)
+{
+	std::string title{ "Score: " + std::to_string(score) + "  Highscore: " + std::to_string(highscore) };
+	SDL_SetWindowTitle(window, title.c_str());
 }
 

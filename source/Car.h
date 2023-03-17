@@ -18,6 +18,7 @@ public:
 	
 	//The car is in the middle lane by default...
 	Lane lane = Lane::kTwo;
+	bool isAlive = true;
 	
 	void ChangeDirection(Car::Lane);
 	void Update_();
