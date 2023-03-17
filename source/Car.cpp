@@ -12,13 +12,15 @@ void Car::Update_() {
 	//updating the lane...
 	switch (lane) {
 	case Lane::kOne:
-		xpos = 368;
+		xpos = 348;
+		//xpos = 368;
 		break;
 	case Lane::kTwo:
 		xpos = 400;
 		break;
 	case Lane::kThree:
-		xpos = 432;
+		//xpos = 432;
+		xpos = 452;
 		break;
 	}
 

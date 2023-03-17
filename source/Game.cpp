@@ -76,26 +76,35 @@ void Game::handleEvents() {
 }
 
 void Game::update() {
+	//creating new situations on the screen when there are none at all
 	if (props.size() == 0) {
 		Situation* prop = new Situation;
 		props.push_back(prop);
 	}
-	else if (props.back()->getY() > 200) {
+	else if (props.back()->getY() > 120) {
 		//to prevent the props from clustering upon entering the game screen...
 		Situation* prop = new Situation;
 		props.push_back(prop);
 	}
 
 
+	//If the car is on the same position as a gold coin...
+	if (props.front()->isCoin() == true && car1->getCarX() == props.front()->getX() && car1->getCarY()-50 == props.front()->getY()) {
+		this->score++;
+		Situation::swallowProps(props); //get the coin of the screen
+		std::cout << "Score: " << this->score << std::endl;
+	}
 
+	
 	Situation::Update_(props);
 	car1->Update_();
 }
 
 void Game::render() {
 	SDL_RenderClear(renderer);
-	map->DrawMap();
 
+	//Using the painters algorithm, what is rendered first is drawn first to the screen
+	map->DrawMap();
 	car1->Render_();
 	Situation::Render_(props);
 	SDL_RenderPresent(renderer);
@@ -105,5 +114,14 @@ void Game::clean() {
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
+}
+
+void Game::checkScore()
+{
+
+}
+
+void Game::checkHighscore()
+{
 }
 

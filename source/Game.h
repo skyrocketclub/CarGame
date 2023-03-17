@@ -20,9 +20,12 @@ public:
 	bool running() { return isRunning; }
 	void render();
 	void clean();
+	void checkScore();
+	void checkHighscore();
 
 	
 	int count{ 0 };
+	int score{0};
 
 	static SDL_Renderer* renderer;
 

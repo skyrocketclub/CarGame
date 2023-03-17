@@ -17,15 +17,20 @@ private:
 	SDL_Rect srcRect, destRect;
 
 	void setConstants();
+	
+
 
 public:
 	Situation();
 	~Situation();
 
-	//enum class Lane{kOne, kTwo, kThree};
-	static void Update_(std::vector<Situation*>);
+	//checks if the top element is a coin
+	bool isCoin();
+	static void Update_(std::vector<Situation*>&);
 	static void Render_(std::vector<Situation*>);
+	static void swallowProps(std::vector<Situation*>&);
 
 	int getY() { return ypos; }
+	int getX() { return xpos; }
 
 };

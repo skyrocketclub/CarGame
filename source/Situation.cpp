@@ -11,26 +11,28 @@ Situation::~Situation() {
 }
 
 void Situation::setConstants() {
-	int form_{ 0 }, lane_{ 0 };
-	form_ = rand() % 3 +1;//generates numbers between 0 - 3
-	lane_ = rand() % 3 + 1;
+	form = rand() % 3 +1;//generates numbers between 0 - 3
+	lane = rand() % 3 + 1;
 
 	//The lane of the prop does not change
-	switch (lane_) {
+	switch (lane) {
 	case 1:
-		xpos = 368;
+		//xpos = 368;
+		xpos = 348;
 		break;
 	case 2:
 		xpos = 400;
+		//xpos = 380;
 		break;
 	case 3:
-		xpos = 432;
+		xpos = 452;
+		//xpos = 432;
 		break;
 	default:
 		break;
 	}
 
-	switch (form_) {
+	switch (form) {
 	case 1: {
 		propTexture = TextureManager::LoadTexture("assets/coin.png");
 	/*	std::cout << "Coin Created\n";*/
@@ -52,8 +54,26 @@ void Situation::setConstants() {
 	}
 }
 
-void Situation::Update_(std::vector<Situation*> props) {
-	
+void Situation::swallowProps(std::vector<Situation*>&props)
+{
+	//Here we swallow the props that pass the boundary
+	// we also do away with the coins that have been consumed...
+	//The main aim of this function is to remove characters from the screen
+	auto it = props.begin();
+	props.erase(it);
+	//std::cout << props.size() << std::endl;
+}
+
+
+bool Situation::isCoin()
+{
+	if (this->form == 1) {
+		return true;
+	}
+	return false;
+}
+
+void Situation::Update_(std::vector<Situation*> &props) {
 	for (size_t i{ 0 }; i < props.size(); i++) {
 		//std::cout << "Updating................................\n";
 
@@ -69,6 +89,12 @@ void Situation::Update_(std::vector<Situation*> props) {
 		props.at(i)->destRect.w = props.at(i)->srcRect.w *2;
 		props.at(i)->destRect.h = props.at(i)->srcRect.h *2;
 	}
+
+	//deleting the first vector if it is past the main element
+	//The cars and the coins go away from the screen and from the vector (since it is passed by reference) 
+	if (props.front()->ypos > 530) {
+		swallowProps(props);
+	}	
 }
 
 void Situation::Render_(std::vector<Situation*> props) {
