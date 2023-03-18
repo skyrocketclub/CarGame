@@ -1,7 +1,8 @@
-# CAR GAME WITH C++ & SDL
-
-#2D CAR GAME WITH SDL AND C++
+# 2D CAR GAME WITH SDL AND C++
 ![Car Game Picture](CarGame.png)
+
+## ANIMATION
+![](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2EwYzkyYTIyMWZmYjg4YzdmZjA0MTRiYzI1MWNiZWQxZjI0YWJlOSZjdD1n/d2U9r3AjGE2a5VIGOj/giphy.gif)
 
 ## STACKS
 Visual Studio
