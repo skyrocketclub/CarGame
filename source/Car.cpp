@@ -29,7 +29,7 @@ void Car::Update_() {
 
 	//The size of the image...
 	srcRect.h = 32;
-	srcRect.w = 32;
+	srcRect.w = 20;
 
 	//determines the position of the game object at every point in time
 	destRect.x = xpos;
@@ -37,7 +37,7 @@ void Car::Update_() {
 
 	//Controls the size of the game object
 	destRect.w = srcRect.w *2;
-	destRect.h = srcRect.h * 2;
+	destRect.h = srcRect.h *2;
 }
 void Car::ChangeDirection(Car::Lane input) {
 	lane = input;

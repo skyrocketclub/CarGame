@@ -30,7 +30,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen) {
 		}
 		isRunning = true;
 	}
-	car1 = new Car("assets/blueCar.png", 400, 500);
+	car1 = new Car("assets/blueCarOne.png", 400, 500);
 	map = new Map();
 	highscore = checkHighscore();
 	windowTitle(score, highscore);
@@ -86,7 +86,7 @@ void Game::update() {
 			Situation* prop = new Situation;
 			props.push_back(prop);
 		}
-		else if (props.back()->getY() > 120) {
+		else if (props.back()->getY() > 180) {
 			//to prevent the props from clustering upon entering the game screen...
 			Situation* prop = new Situation;
 			props.push_back(prop);
@@ -94,8 +94,8 @@ void Game::update() {
 
 
 		//If the car is on the same position as a gold coin... or if the coin is simply within range
-		if (props.front()->isCoin() == true && car1->getCarX() == props.front()->getX() && (car1->getCarY() - props.front()->getY() > 0 && car1->getCarY() - props.front()->getY() < 50)) {
-			this->score++;
+		if (props.front()->isCoin() == true && car1->getCarX() == props.front()->getX() && (props.front()->getY() > 440)) {
+			this->score += 5;
 			Situation::swallowProps(props); //get the coin of the screen
 			std::cout << "Score: " << this->score << std::endl;
 		}
@@ -103,9 +103,10 @@ void Game::update() {
 		//if the approaching prop is not a coin...
 		if (props.front()->isCoin() != true) {
 			//If there is a collision, this means game over...
-			if (car1->getCarX() == props.front()->getX() && (car1->getCarY() - props.front()->getY() > -32 && car1->getCarY() - props.front()->getY() < 50)) {
+			if (car1->getCarX() == props.front()->getX() && (props.front()->getY() > 434)) {
 				car1->isAlive = false;
 				updateHighscore();
+				std::cout << "------  GAME OVER  -------\n";
 			}
 		}
 
@@ -119,8 +120,8 @@ void Game::render() {
 	SDL_RenderClear(renderer);
 		//Using the painters algorithm, what is rendered first is drawn first to the screen
 	map->DrawMap();
-	car1->Render_();
 	Situation::Render_(props);
+	car1->Render_();
 	SDL_RenderPresent(renderer);
 }
 
@@ -143,7 +144,7 @@ void Game::updateHighscore()
 		SDL_SetWindowTitle(window, title.c_str());
 	}
 	else {
-
+		out_file << highscore;
 	}
 }
 

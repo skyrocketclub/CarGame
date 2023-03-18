@@ -1,6 +1,7 @@
 #include "Situation.h"
 #include "TextureManager.h"
 
+
 Situation::Situation() {
 	setConstants();
 	ypos = 0;
@@ -9,6 +10,8 @@ Situation::Situation() {
 Situation::~Situation() {
 
 }
+
+
 
 void Situation::setConstants() {
 	form = rand() % 5 +1;//generates numbers between 0 - 3
@@ -39,21 +42,21 @@ void Situation::setConstants() {
 	}
 		break;
 	case 2: {
-		propTexture = TextureManager::LoadTexture("assets/greenCar.png");
+		propTexture = TextureManager::LoadTexture("assets/greenCarOne.png");
 		//std::cout << "Green Car Created\n";
 	}
 		break;
 	case 3: 
 	{
-		propTexture = TextureManager::LoadTexture("assets/redCar.png");
+		propTexture = TextureManager::LoadTexture("assets/redCarOne.png");
 		//std::cout << "Red Car Created\n";
 	}
 		break;
 	case 4: {
-		propTexture = TextureManager::LoadTexture("assets/blackCar.png");
+		propTexture = TextureManager::LoadTexture("assets/blackCarOne.png");
 	}break;
 	case 5: {
-		propTexture = TextureManager::LoadTexture("assets/blueCar.png");
+		propTexture = TextureManager::LoadTexture("assets/blueCarOne.png");
 	}break;
 	default:
 		break;
@@ -84,7 +87,7 @@ void Situation::Update_(std::vector<Situation*> &props) {
 		//std::cout << "Updating................................\n";
 
 		props.at(i)->srcRect.h = 32;
-		props.at(i)->srcRect.w = 32;
+		props.at(i)->srcRect.w = 20;
 
 		props.at(i)->destRect.x = props.at(i)->xpos;
 
